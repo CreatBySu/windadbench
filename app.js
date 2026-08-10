@@ -396,8 +396,8 @@ function init() {
     $$(".da-pane").forEach(p => p.classList.toggle("active", p.id === "da-" + b.dataset.t));
   });
   $("#nm-order").innerHTML = D.modeB.order.map((w, i) =>
-    `<li class="t-${WMETA[w].track}" title="${WMETA[w].track}">${w.replace(">", "→")}
-     <span class="muted small">${WMETA[w].cost_proxy.toFixed(1)}s</span></li>`).join("");
+    `<li><span class="ord-n">${i + 1}</span><span class="ord-w">${w.replace(">", "→")}</span>
+     <span class="ord-c">${WMETA[w].cost_proxy.toFixed(1)}s</span></li>`).join("");
   drawChart("#nm-chart");
   $("#nm-rows").innerHTML = nmRow(0);
   $("#nm-add").onclick = () => $("#nm-rows").insertAdjacentHTML("beforeend", nmRow($$(".nm-row").length));

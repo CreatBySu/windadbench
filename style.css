@@ -58,7 +58,7 @@ h4 { font-size: .78rem; margin: 1rem 0 .35rem; text-transform: uppercase; letter
 .wt2 { animation-delay: 1.2s; color: #a3c6de; }
 .wt3 { animation-delay: 2.4s; }
 @keyframes sway { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-3px) } }
-.tagline { font-size: 1.02rem; color: var(--muted); max-width: 34rem; margin: 0 0 1.3rem; }
+.tagline { font-size: .98rem; color: var(--muted); max-width: 40rem; margin: 0 0 1.3rem; }
 .stats { display: flex; flex-wrap: wrap; gap: 14px; }
 .stat { display: flex; flex-direction: column; align-items: center; gap: 2px;
   background: rgba(255,255,255,.72); border: 1px solid var(--line); border-radius: var(--radius);
@@ -166,11 +166,14 @@ label.inline input, label.inline select { width: 140px; }
 .btn:hover { filter: brightness(1.08); }
 
 /* ---- evaluation-plan list & chart ---- */
-.order { columns: 2; font-size: .84rem; padding-left: 1.3rem; margin: .4rem 0 1rem; }
-.order li { margin: 3px 0; }
-.order .t-in-farm { color: var(--accent-2); }
-.order .t-cross-turbine { color: var(--accent); }
-.order .t-cross-farm { color: var(--warn); }
+.order { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 3px 22px;
+  padding: 0; margin: .5rem 0 1rem; font-size: .84rem; }
+.order li { display: grid; grid-template-columns: 22px 1fr auto; align-items: baseline; gap: 6px;
+  padding: 3px 8px; border-radius: 6px; }
+.order li:nth-child(-n+4) { background: var(--sky-2); }
+.ord-n { color: var(--muted); font-size: .74rem; font-variant-numeric: tabular-nums; }
+.ord-w { font-weight: 500; }
+.ord-c { color: var(--muted); font-size: .78rem; font-variant-numeric: tabular-nums; text-align: right; }
 #nm-chart svg { width: 100%; height: auto; display: block; }
 
 /* ---- decision agent ---- */
