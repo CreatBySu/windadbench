@@ -107,6 +107,9 @@ table.mini th, table.mini td { padding: 4px 8px; font-size: .8rem; }
 .pct { color: var(--accent); font-variant-numeric: tabular-nums; }
 
 .chip { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: .7rem; color: #fff; }
+.fam-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: .2rem 0 .4rem;
+  font-size: .78rem; color: var(--muted); }
+.fam-legend .leg { display: inline-flex; align-items: center; gap: 5px; }
 .f-NL { background:#6c757d; } .f-ML { background:#2e8d68; } .f-DL { background:#1c5d8f; }
 .f-LLM { background:#8e44ad; } .f-TSP { background:#b26a00; } .f-DLLM { background:#a83250; }
 .tag { display: inline-block; font-size: .68rem; border: 1px solid var(--line); border-radius: 4px;

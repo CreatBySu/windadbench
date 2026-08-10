@@ -15,6 +15,11 @@ const metMap = {}; for (const m of D.metrics) (metMap[m.m] ??= {})[m.w] = m;
 const DIMS = ["accuracy", "earliness", "reliability", "cost"];
 const DIMK = { accuracy: "a", earliness: "e", reliability: "r", cost: "c" };
 const FAMS = [...new Set(D.registry.map(r => r.family))].sort();
+const FAM_FULL = {
+  NL: "Non-Learning", ML: "Machine Learning", DL: "Deep Learning",
+  LLM: "LLM-based", TSP: "Time-Series Pretrained", DLLM: "Domain-adapted LLM",
+};
+const famOptions = () => FAMS.map(f => `<option value="${f}">${f} · ${FAM_FULL[f] ?? f}</option>`).join("");
 
 /* metric registry: label, direction (+1 higher better), decimals */
 const M = {
@@ -41,7 +46,7 @@ const GROUPS = {
   "Cost": ["fit_time", "infer_time", "infer_gpu_mem", "model_size"],
 };
 const fmt = (v, k) => v == null ? "—" : v.toFixed(M[k][2]);
-const famChip = (f) => `<span class="chip f-${f}">${f}</span>`;
+const famChip = (f) => `<span class="chip f-${f}" title="${FAM_FULL[f] ?? f}">${f}</span>`;
 const flagHtml = (m) => (REG[m].flags || []).map(f => `<span class="flag" title="rule-based failure flag">⚠ ${f}</span>`).join("");
 const mean = (a) => a.length ? a.reduce((x, y) => x + y, 0) / a.length : null;
 
@@ -76,7 +81,7 @@ function lbWorkloads() { return D.workloads.filter(w => w.track === $("#lb-track
 function fillLb() {
   $("#lb-workload").innerHTML = `<option value="__avg">Macro average</option>` +
     lbWorkloads().map(w => `<option>${w}</option>`).join("");
-  $("#lb-family").innerHTML = `<option value="">All families</option>` + FAMS.map(f => `<option>${f}</option>`).join("");
+  $("#lb-family").innerHTML = `<option value="">All families</option>` + famOptions();
   $("#lb-groups").innerHTML = Object.keys(GROUPS).map(g =>
     `<button class="gtab ${g === lbGroup ? "active" : ""}" data-g="${g}">${g}</button>`).join("");
   $$("#lb-groups .gtab").forEach(b => b.onclick = () => {
@@ -121,7 +126,7 @@ $("#lb-search").oninput = renderLb;
 
 /* ================ MODELS ================ */
 function fillModels() {
-  $("#md-family").innerHTML = `<option value="">All families</option>` + FAMS.map(f => `<option>${f}</option>`).join("");
+  $("#md-family").innerHTML = `<option value="">All families</option>` + famOptions();
 }
 function renderModels() {
   const fam = $("#md-family").value, cpu = $("#md-cpu").checked, q = $("#md-search").value.toLowerCase();
@@ -388,6 +393,8 @@ function drawChart(sel) {
 
 /* ================ init ================ */
 function init() {
+  const legend = FAMS.map(f => `<span class="leg">${famChip(f)} ${FAM_FULL[f] ?? f}</span>`).join("");
+  $("#lb-legend").innerHTML = legend; $("#md-legend").innerHTML = legend;
   fillLb(); renderLb();
   fillModels(); renderModels();
   renderWorkloads();
