@@ -51,10 +51,10 @@
       <p class="tagline">A wind-turbine anomaly detection benchmark — and a decision agent
       that turns its results into deployment and evaluation advice.</p>
       <div class="stats">
-        <div class="stat"><b>36</b><span>detectors</span></div>
-        <div class="stat"><b>15</b><span>workloads</span></div>
-        <div class="stat"><b>3</b><span>wind farms</span></div>
-        <div class="stat"><b>95</b><span>labeled events</span></div>
+        <div class="stat"><i>🤖</i><b>36</b><span>detectors</span></div>
+        <div class="stat"><i>🗂</i><b>15</b><span>workloads</span></div>
+        <div class="stat"><i>🌬</i><b>3</b><span>wind farms</span></div>
+        <div class="stat"><i>⚡</i><b>95</b><span>labeled events</span></div>
       </div>
     </div>
   </header>
@@ -69,8 +69,6 @@
       <a class="card hi" href="#agent"><i class="ico">🧭</i><h3>Decision Agent</h3>
         Pick a model for your farm, or evaluate a new model cheaply — deterministic and auditable.</a>
     </div>
-    <p class="fineprint">Single-seed estimates under a 1% FPR budget · “—” = metric undefined ·
-    cross-farm evidence reported with low confidence.</p>
   </div>
 </main>
 
@@ -127,19 +125,21 @@
 
     <div class="da-flow">
       <div class="da-node evidence">
-        <svg viewBox="0 0 64 64" class="da-ico"><use href="#turbine"/></svg>
-        <b>Benchmark evidence</b>
-        <small>36 × 15 × 4 percentile tensor<br>accuracy · earliness · reliability · cost</small>
+        <i class="da-emoji">📚</i>
+        <b>Evidence</b>
+        <small>36 models × 15 workloads<br>4-dimension percentiles</small>
       </div>
       <div class="da-arrow">→</div>
       <div class="da-node policy">
-        <b>Deterministic policy</b>
-        <small>no LLM · seed-fixed · replayable<br>hard filters → risk-adjusted ranking</small>
+        <i class="da-emoji">⚙️</i>
+        <b>Policy</b>
+        <small>deterministic · no LLM<br>fully replayable</small>
       </div>
       <div class="da-arrow">→</div>
       <div class="da-node output">
-        <b>Auditable decision</b>
-        <small>portfolio or abstention<br>every exclusion has a reason</small>
+        <i class="da-emoji">✅</i>
+        <b>Decision</b>
+        <small>portfolio or abstention<br>with audit trail</small>
       </div>
     </div>
 
@@ -152,7 +152,7 @@
     <section id="da-d2m" class="da-pane active">
       <div class="agent-grid">
         <div class="panel">
-          <h3>Describe your deployment</h3>
+          <h3>🌾 Describe your deployment</h3>
           <label class="inline">Turbines <input type="number" id="nd-turbines" value="10" min="1"></label>
           <label class="inline">SCADA channels <input type="number" id="nd-features" value="200" min="1"></label>
           <label class="inline">Farm type
@@ -168,28 +168,25 @@
           <label class="inline">Max model size (MB) <input type="number" id="nd-size" min="0" step="10" placeholder="none"></label>
         </div>
         <div class="panel result">
-          <h3>Recommendation</h3>
+          <h3>🏆 Recommendation</h3>
           <div id="nd-out"></div>
         </div>
       </div>
-      <p class="fineprint">Infeasible models are excluded before preferences apply; ranking uses the
-      lower-confidence-bound utility, so thin evidence lowers a model's score.</p>
     </section>
 
     <!-- ---- M2B ---- -->
     <section id="da-m2b" class="da-pane">
       <div class="agent-grid">
         <div class="panel">
-          <h3>Evaluation plan</h3>
-          <p class="note small"><b>K=4</b> workloads position a detector within ≈6 percentile points
-          at <b>16% of full cost</b>.</p>
+          <h3>🗺 Evaluation plan</h3>
+          <p class="note small"><b>K=4</b> workloads ≈ full-profile positioning at <b>16% cost</b>.</p>
           <ol class="order" id="nm-order"></ol>
           <div id="nm-chart"></div>
           <p class="fineprint">green: prescribed order · gray: random orders · dashed: oracle</p>
         </div>
         <div class="panel">
-          <h3>Position my model</h3>
-          <p class="note small">Enter measured results (1% FPR protocol); empty fields are ignored.</p>
+          <h3>📍 Position my model</h3>
+          <p class="note small">Enter measured results; empty fields are ignored.</p>
           <div id="nm-rows"></div>
           <div class="rowbtns">
             <button class="btn small" id="nm-add">+ add workload</button>
@@ -198,8 +195,6 @@
           <div id="nm-out"></div>
         </div>
       </div>
-      <p class="fineprint">Workload order is chosen by leave-one-reference-model-out replay —
-      never by the new model's own results (leakage-free).</p>
     </section>
   </div>
 </main>

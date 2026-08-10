@@ -59,9 +59,13 @@ h4 { font-size: .78rem; margin: 1rem 0 .35rem; text-transform: uppercase; letter
 .wt3 { animation-delay: 2.4s; }
 @keyframes sway { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-3px) } }
 .tagline { font-size: 1.02rem; color: var(--muted); max-width: 34rem; margin: 0 0 1.3rem; }
-.stats { display: flex; flex-wrap: wrap; gap: 30px; }
-.stat b { display: block; font-size: 1.6rem; color: var(--accent); font-variant-numeric: tabular-nums; }
-.stat span { font-size: .76rem; color: var(--muted); }
+.stats { display: flex; flex-wrap: wrap; gap: 14px; }
+.stat { display: flex; flex-direction: column; align-items: center; gap: 2px;
+  background: rgba(255,255,255,.72); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 12px 22px; min-width: 104px; }
+.stat i { font-style: normal; font-size: 1.15rem; }
+.stat b { display: block; font-size: 1.5rem; color: var(--accent); font-variant-numeric: tabular-nums; }
+.stat span { font-size: .74rem; color: var(--muted); }
 
 /* ---- entry cards ---- */
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
@@ -172,9 +176,11 @@ label.inline input, label.inline select { width: 140px; }
 /* ---- decision agent ---- */
 .da-flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 12px;
   align-items: stretch; margin: 1.1rem 0 1.4rem; }
-.da-node { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px;
-  background: var(--card); display: flex; flex-direction: column; gap: 3px; font-size: .9rem; }
+.da-node { border: 1px solid var(--line); border-radius: var(--radius); padding: 16px;
+  background: var(--card); display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 3px; font-size: .92rem; }
 .da-node small { color: var(--muted); font-size: .76rem; line-height: 1.5; }
+.da-emoji { font-style: normal; font-size: 1.5rem; margin-bottom: 2px; }
 .da-node.evidence { background: linear-gradient(160deg, var(--sky-1), #fff); border-color: #c6dcec; }
 .da-node.policy   { border-color: #cfe4da; background: linear-gradient(160deg, var(--sky-2), #fff); }
 .da-node.output   { border-color: #c6dcec; }
