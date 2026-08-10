@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WindADBench · Benchmark System</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <g id="turbine">
+      <line x1="32" y1="30" x2="32" y2="62" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <g stroke="currentColor" stroke-width="3" stroke-linecap="round">
+        <line x1="32" y1="30" x2="32" y2="8"/>
+        <line x1="32" y1="30" x2="51" y2="41"/>
+        <line x1="32" y1="30" x2="13" y2="41"/>
+      </g>
+      <circle cx="32" cy="30" r="3.5" fill="currentColor"/>
+    </g>
+  </defs>
+</svg>
+
+<nav class="topnav">
+  <div class="wrap">
+    <a class="brand" href="#overview">
+      <svg viewBox="0 0 64 64" class="brand-ico"><use href="#turbine"/></svg>
+      WindAD<span>Bench</span>
+    </a>
+    <div class="links" id="nav">
+      <a href="#overview">Overview</a>
+      <a href="#leaderboard">Leaderboard</a>
+      <a href="#models">Models</a>
+      <a href="#workloads">Workloads</a>
+      <a href="#agent">Decision Agent</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= OVERVIEW ================= -->
+<main id="view-overview" class="view">
+  <header class="hero">
+    <svg class="hero-turbines" viewBox="0 0 300 120" aria-hidden="true">
+      <g class="wt wt1"><use href="#turbine" transform="translate(20,40) scale(1.1)"/></g>
+      <g class="wt wt2"><use href="#turbine" transform="translate(120,20) scale(1.5)"/></g>
+      <g class="wt wt3"><use href="#turbine" transform="translate(230,50) scale(0.9)"/></g>
+    </svg>
+    <div class="wrap">
+      <h1>WindADBench</h1>
+      <p class="tagline">A wind-turbine anomaly detection benchmark — and a decision agent
+      that turns its results into deployment and evaluation advice.</p>
+      <div class="stats">
+        <div class="stat"><b>36</b><span>detectors</span></div>
+        <div class="stat"><b>15</b><span>workloads</span></div>
+        <div class="stat"><b>3</b><span>wind farms</span></div>
+        <div class="stat"><b>95</b><span>labeled events</span></div>
+      </div>
+    </div>
+  </header>
+  <div class="wrap">
+    <div class="cards entry">
+      <a class="card" href="#leaderboard"><i class="ico">📊</i><h3>Leaderboard</h3>
+        Rank 36 detectors on any workload, by any of 29 metrics.</a>
+      <a class="card" href="#models"><i class="ico">🧩</i><h3>Models</h3>
+        Per-model capability card and per-workload results.</a>
+      <a class="card" href="#workloads"><i class="ico">🗂</i><h3>Workloads</h3>
+        Difficulty, event support, cost, and diagnostic value.</a>
+      <a class="card hi" href="#agent"><i class="ico">🧭</i><h3>Decision Agent</h3>
+        Pick a model for your farm, or evaluate a new model cheaply — deterministic and auditable.</a>
+    </div>
+    <p class="fineprint">Single-seed estimates under a 1% FPR budget · “—” = metric undefined ·
+    cross-farm evidence reported with low confidence.</p>
+  </div>
+</main>
+
+<!-- ================= LEADERBOARD ================= -->
+<main id="view-leaderboard" class="view">
+  <div class="wrap">
+    <h2>Leaderboard</h2>
+    <div class="controls">
+      <label>Track
+        <select id="lb-track">
+          <option value="in-farm">In-farm (T1)</option>
+          <option value="cross-turbine">Cross-turbine (T3)</option>
+          <option value="cross-farm">Cross-farm (T4)</option>
+        </select></label>
+      <label>Workload <select id="lb-workload"></select></label>
+      <label>Family <select id="lb-family"></select></label>
+      <input id="lb-search" type="search" placeholder="filter models…">
+    </div>
+    <div class="grouptabs" id="lb-groups"></div>
+    <div class="tablewrap tall"><table id="lb-table"></table></div>
+    <p class="fineprint">Click a column to rank by it; top-3 highlighted.</p>
+  </div>
+</main>
+
+<!-- ================= MODELS ================= -->
+<main id="view-models" class="view">
+  <div class="wrap">
+    <h2>Model Profiles</h2>
+    <div class="controls">
+      <label>Family <select id="md-family"></select></label>
+      <label class="check" style="align-self:center"><input type="checkbox" id="md-cpu"> CPU-only</label>
+      <input id="md-search" type="search" placeholder="filter models…">
+    </div>
+    <div class="tablewrap"><table id="md-table"></table></div>
+    <div id="md-detail"></div>
+  </div>
+</main>
+
+<!-- ================= WORKLOADS ================= -->
+<main id="view-workloads" class="view">
+  <div class="wrap">
+    <h2>Workload Profiles</h2>
+    <p class="note small">Each workload is a versioned ⟨farm, turbine-set, event-set⟩ task.
+    Click a row for its local top models.</p>
+    <div class="tablewrap"><table id="wl-table"></table></div>
+    <div id="wl-detail"></div>
+  </div>
+</main>
+
+<!-- ================= DECISION AGENT ================= -->
+<main id="view-agent" class="view">
+  <div class="wrap">
+    <h2>Decision Agent</h2>
+
+    <div class="da-flow">
+      <div class="da-node evidence">
+        <svg viewBox="0 0 64 64" class="da-ico"><use href="#turbine"/></svg>
+        <b>Benchmark evidence</b>
+        <small>36 × 15 × 4 percentile tensor<br>accuracy · earliness · reliability · cost</small>
+      </div>
+      <div class="da-arrow">→</div>
+      <div class="da-node policy">
+        <b>Deterministic policy</b>
+        <small>no LLM · seed-fixed · replayable<br>hard filters → risk-adjusted ranking</small>
+      </div>
+      <div class="da-arrow">→</div>
+      <div class="da-node output">
+        <b>Auditable decision</b>
+        <small>portfolio or abstention<br>every exclusion has a reason</small>
+      </div>
+    </div>
+
+    <div class="da-tabs" id="da-tabs">
+      <button class="da-tab active" data-t="d2m">🌬 D2M · My farm → which model?</button>
+      <button class="da-tab" data-t="m2b">🧪 M2B · My model → how to evaluate?</button>
+    </div>
+
+    <!-- ---- D2M ---- -->
+    <section id="da-d2m" class="da-pane active">
+      <div class="agent-grid">
+        <div class="panel">
+          <h3>Describe your deployment</h3>
+          <label class="inline">Turbines <input type="number" id="nd-turbines" value="10" min="1"></label>
+          <label class="inline">SCADA channels <input type="number" id="nd-features" value="200" min="1"></label>
+          <label class="inline">Farm type
+            <select id="nd-type"><option value="onshore">onshore</option><option value="offshore" selected>offshore</option></select></label>
+          <label class="inline">Fault labels
+            <select id="nd-labels"><option value="no">none (cold start)</option><option value="yes">available</option></select></label>
+          <h4>Priorities</h4>
+          <div class="presets" id="nd-presets"></div>
+          <div id="nd-sliders"></div>
+          <h4>Hard constraints</h4>
+          <label class="check"><input type="checkbox" id="nd-cpu"> CPU-only site</label>
+          <label class="inline">Max FA / turbine-day <input type="number" id="nd-fa" min="0" step="0.5" placeholder="none"></label>
+          <label class="inline">Max model size (MB) <input type="number" id="nd-size" min="0" step="10" placeholder="none"></label>
+        </div>
+        <div class="panel result">
+          <h3>Recommendation</h3>
+          <div id="nd-out"></div>
+        </div>
+      </div>
+      <p class="fineprint">Infeasible models are excluded before preferences apply; ranking uses the
+      lower-confidence-bound utility, so thin evidence lowers a model's score.</p>
+    </section>
+
+    <!-- ---- M2B ---- -->
+    <section id="da-m2b" class="da-pane">
+      <div class="agent-grid">
+        <div class="panel">
+          <h3>Evaluation plan</h3>
+          <p class="note small"><b>K=4</b> workloads position a detector within ≈6 percentile points
+          at <b>16% of full cost</b>.</p>
+          <ol class="order" id="nm-order"></ol>
+          <div id="nm-chart"></div>
+          <p class="fineprint">green: prescribed order · gray: random orders · dashed: oracle</p>
+        </div>
+        <div class="panel">
+          <h3>Position my model</h3>
+          <p class="note small">Enter measured results (1% FPR protocol); empty fields are ignored.</p>
+          <div id="nm-rows"></div>
+          <div class="rowbtns">
+            <button class="btn small" id="nm-add">+ add workload</button>
+            <button class="btn primary small" id="nm-run">Analyze</button>
+          </div>
+          <div id="nm-out"></div>
+        </div>
+      </div>
+      <p class="fineprint">Workload order is chosen by leave-one-reference-model-out replay —
+      never by the new model's own results (leakage-free).</p>
+    </section>
+  </div>
+</main>
+
+<footer><div class="wrap">
+  <svg viewBox="0 0 64 64" class="foot-ico"><use href="#turbine"/></svg>
+  WindADBench · MIT License ·
+  <a href="https://github.com/windadbench/windadbench">github.com/windadbench/windadbench</a>
+</div></footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
